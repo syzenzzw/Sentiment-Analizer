@@ -13,7 +13,7 @@ namespace MLModel
 {
     public partial class SentimentModel
     {
-        public const string RetrainFilePath =  @"C:\Users\oisyz\source\repos\MLModel\MLModel\yelp_labelled.txt";
+        public const string RetrainFilePath =  @"C:\Users\oisyz\Downloads\sentiment labelled sentences\sentiment labelled sentences\yelp_labelled.txt";
         public const char RetrainSeparatorChar = '	';
         public const bool RetrainHasHeader =  false;
         public const bool RetrainAllowQuoting =  false;
@@ -92,7 +92,7 @@ namespace MLModel
             var pipeline = mlContext.Transforms.Text.FeaturizeText(inputColumnName:@"col0",outputColumnName:@"col0")      
                                     .Append(mlContext.Transforms.Concatenate(@"Features", new []{@"col0"}))      
                                     .Append(mlContext.Transforms.Conversion.MapValueToKey(outputColumnName:@"col1",inputColumnName:@"col1",addKeyValueAnnotationsAsText:false))      
-                                    .Append(mlContext.MulticlassClassification.Trainers.OneVersusAll(binaryEstimator: mlContext.BinaryClassification.Trainers.LbfgsLogisticRegression(new LbfgsLogisticRegressionBinaryTrainer.Options(){L1Regularization=0.03125F,L2Regularization=0.23412359F,LabelColumnName=@"col1",FeatureColumnName=@"Features"}), labelColumnName:@"col1"))      
+                                    .Append(mlContext.MulticlassClassification.Trainers.LbfgsMaximumEntropy(new LbfgsMaximumEntropyMulticlassTrainer.Options(){L1Regularization=0.03125F,L2Regularization=0.44420826F,LabelColumnName=@"col1",FeatureColumnName=@"Features"}))      
                                     .Append(mlContext.Transforms.Conversion.MapKeyToValue(outputColumnName:@"PredictedLabel",inputColumnName:@"PredictedLabel"));
 
             return pipeline;
